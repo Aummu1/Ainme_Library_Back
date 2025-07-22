@@ -1,0 +1,32 @@
+# Build
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.app
+*.log
+
+# User/IDE Config
+.vscode/
+.idea/
+*.user
+*.suo
+
+# EF & Migrations
+Migrations/
+*.db
+*.sqlite
+*.db-shm
+*.db-wal
+
+# Local config
+appsettings.Development.json
+secrets.json
+
+# Test output
+TestResults/
+
+# OS
+.DS_Store
+Thumbs.db
