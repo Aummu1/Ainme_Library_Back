@@ -15,10 +15,10 @@ namespace AnimeApi.Controllers
             _animeService = animeService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUserId(int userId)
         {
-            var animes = await _animeService.GetAllAsync();
+            var animes = await _animeService.GetByUserIdAsync(userId);
 
             var result = animes.Select(a => new AnimeResponseDto
             {
@@ -27,7 +27,8 @@ namespace AnimeApi.Controllers
                 Description = a.Description,
                 Category = a.Category,
                 Status = a.Status,
-                ImageBase64 = a.Image != null ? Convert.ToBase64String(a.Image) : ""
+                ImageBase64 = a.Image != null ? Convert.ToBase64String(a.Image) : null,
+                UserId = a.UserId
             });
 
             return Ok(result);
@@ -41,6 +42,7 @@ namespace AnimeApi.Controllers
             public string Category { get; set; }
             public string Status { get; set; }
             public string? ImageBase64 { get; set; }  // ✅ อนุญาตให้ null ได้
+            public int UserId { get; set; }
         }
 
         [HttpGet("{id}")]
@@ -82,7 +84,8 @@ namespace AnimeApi.Controllers
                 Description = dto.Description,
                 Category = dto.Category,
                 Status = dto.Status,
-                Image = imageBytes // เก็บเป็น blob
+                Image = imageBytes, // เก็บเป็น blob
+                UserId = dto.UserId
             };
 
             await _animeService.AddAsync(anime);
@@ -97,6 +100,7 @@ namespace AnimeApi.Controllers
             public string Category { get; set; }
             public string Status { get; set; }
             public IFormFile? Image { get; set; }
+            public int UserId { get; set; }
         }
 
         [HttpPut("{id}")]

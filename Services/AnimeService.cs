@@ -54,5 +54,12 @@ namespace AnimeApi.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<AnimeInfo>> GetByUserIdAsync(int userId)
+        {
+            return await _context.AnimeInfo
+                .Where(a => a.UserId == userId)
+                .ToListAsync();
+        }
     }
 }
