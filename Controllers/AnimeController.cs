@@ -145,5 +145,15 @@ namespace AnimeApi.Controllers
             var deleted = await _animeService.DeleteAsync(id);
             return deleted ? NoContent() : NotFound();
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return BadRequest("Query is required.");
+
+            var results = await _animeService.SearchAnimeAsync(query);
+            return Ok(results);
+        }
     }
 }

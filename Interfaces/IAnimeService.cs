@@ -12,5 +12,7 @@ namespace AnimeApi.Services
         Task<AnimeInfo> UpdateAsync(int id, AnimeInfo anime);
         Task<bool> DeleteAsync(int id);
         Task<IEnumerable<AnimeInfo>> GetByUserIdAsync(int userId);
+        Task<IEnumerable<AnimeInfo>> SearchAnimeAsync(string query);
+
     }
 }

@@ -23,7 +23,6 @@ namespace AnimeApi.Services
 
         public async Task<User> RegisterAsync(User user)
         {
-            // ✅ ตรวจ email หรือ username ซ้ำ
             var existingUser = await _context.User
                 .FirstOrDefaultAsync(u => u.Email == user.Email || u.Username == user.Username);
 
@@ -33,7 +32,11 @@ namespace AnimeApi.Services
             }
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            user.CreatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+
+            // ✅ ใช้เวลาไทย (Asia/Bangkok)
+            var bangkokTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow,
+                TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
+            user.CreatedAt = bangkokTime.ToString("yyyy-MM-dd HH:mm:ss");
 
             _context.User.Add(user);
             await _context.SaveChangesAsync();

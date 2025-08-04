@@ -61,5 +61,12 @@ namespace AnimeApi.Services
                 .Where(a => a.UserId == userId)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<AnimeInfo>> SearchAnimeAsync(string query)
+        {
+            return await _context.AnimeInfo
+                .Where(a => a.AnimeName.ToLower().Contains(query.ToLower()))
+                .ToListAsync();
+        }
     }
 }
