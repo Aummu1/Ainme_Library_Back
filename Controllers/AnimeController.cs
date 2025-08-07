@@ -28,7 +28,8 @@ namespace AnimeApi.Controllers
                 Category = a.Category,
                 Status = a.Status,
                 ImageBase64 = a.Image != null ? Convert.ToBase64String(a.Image) : null,
-                UserId = a.UserId
+                UserId = a.UserId,
+                Favorite = a.Favorite
             });
 
             return Ok(result);
@@ -43,6 +44,7 @@ namespace AnimeApi.Controllers
             public string Status { get; set; }
             public string? ImageBase64 { get; set; }  // ✅ อนุญาตให้ null ได้
             public int UserId { get; set; }
+            public bool Favorite { get; set; }
         }
 
         [HttpGet("{id}")]
@@ -61,7 +63,8 @@ namespace AnimeApi.Controllers
                 Description = anime.Description,
                 Category = anime.Category,
                 Status = anime.Status,
-                ImageBase64 = anime.Image != null ? Convert.ToBase64String(anime.Image) : null
+                ImageBase64 = anime.Image != null ? Convert.ToBase64String(anime.Image) : null,
+                Favorite = anime.Favorite
             };
 
             return Ok(result);
@@ -154,6 +157,15 @@ namespace AnimeApi.Controllers
 
             var results = await _animeService.SearchAnimeAsync(query);
             return Ok(results);
+        }
+
+        [HttpPatch("{id}/favorite")]
+        public async Task<IActionResult> ToggleFavorite(int id)
+        {
+            var result = await _animeService.ToggleFavoriteAsync(id);
+            if (result == null) return NotFound();
+
+            return Ok(new { id = result.Id, favorite = result.Favorite });
         }
     }
 }

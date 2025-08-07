@@ -82,5 +82,35 @@ namespace AnimeApi.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDto dto)
+        {
+            var user = await _userService.Users.FindAsync(id);
+            if (user == null)
+                return NotFound("User not found");
+
+            if (!string.IsNullOrWhiteSpace(dto.Username))
+                user.Username = dto.Username;
+
+            if (!string.IsNullOrWhiteSpace(dto.ImageBase64))
+            {
+                try
+                {
+                    user.ProfileImage = Convert.FromBase64String(
+                        dto.ImageBase64.Contains(",")
+                            ? dto.ImageBase64.Split(",")[1]
+                            : dto.ImageBase64
+                    );
+                }
+                catch
+                {
+                    return BadRequest("Invalid base64 image string");
+                }
+            }
+
+            await _userService.SaveChangesAsync();
+            return Ok("User updated successfully");
+        }
     }
 }

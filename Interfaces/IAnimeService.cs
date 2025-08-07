@@ -13,6 +13,6 @@ namespace AnimeApi.Services
         Task<bool> DeleteAsync(int id);
         Task<IEnumerable<AnimeInfo>> GetByUserIdAsync(int userId);
         Task<IEnumerable<AnimeInfo>> SearchAnimeAsync(string query);
-
+        Task<AnimeInfo?> ToggleFavoriteAsync(int id);
     }
 }

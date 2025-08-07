@@ -68,5 +68,15 @@ namespace AnimeApi.Services
                 .Where(a => a.AnimeName.ToLower().Contains(query.ToLower()))
                 .ToListAsync();
         }
+
+        public async Task<AnimeInfo?> ToggleFavoriteAsync(int id)
+        {
+            var anime = await _context.AnimeInfo.FindAsync(id);
+            if (anime == null) return null;
+
+            anime.Favorite = !anime.Favorite; // toggle
+            await _context.SaveChangesAsync();
+            return anime;
+        }
     }
 }

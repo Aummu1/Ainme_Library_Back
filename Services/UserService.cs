@@ -21,6 +21,10 @@ namespace AnimeApi.Services
             _configuration = configuration;
         }
 
+        public DbSet<User> Users => _context.User;
+
+        public Task<int> SaveChangesAsync() => _context.SaveChangesAsync();
+
         public async Task<User> RegisterAsync(User user)
         {
             var existingUser = await _context.User

@@ -22,5 +22,7 @@ namespace AnimeApi.Models
         public string? CreatedAt { get; set; }
 
         public string? LastLogin { get; set; }
+
+        public byte[]? ProfileImage { get; set; }
     }
 }

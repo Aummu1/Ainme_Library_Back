@@ -13,5 +13,6 @@ namespace AnimeApi.Models
         public string Status { get; set; }
         public byte[] Image { get; set; }
         public int UserId { get; set; } // ✅ ต้องมี
+        public bool Favorite { get; set; } = false;
     }
 }
